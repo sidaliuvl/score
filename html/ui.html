@@ -9,57 +9,130 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <link rel="stylesheet" href="./style.css"/>
     <link rel="stylesheet" href="./reset.css"/>
-    <title>QBCore Scoreboard</title>
+    <title>Quasar Roleplay Scoreboard</title>
 </head>
 <body>
     <div class="container">
         <div class="scoreboard-block">
+            <!-- Header with Logo -->
             <div class="scoreboard-header">
-                <div id="exit-button-container">
-                    <button id="exit-button">Exit</button>
-                    <button id="esc-button">ESC</button>
+                <div class="logo-section">
+                    <div class="logo-icon">Q</div>
+                    <div class="logo-text">
+                        <h1>Quasar</h1>
+                        <p>Roleplay</p>
+                    </div>
                 </div>
-                <div class="header-title">
-                    <p>PLAYER LIST</p>
-                    <p>HERE YOU CAN SEE ALL PLAYERS</p>
-                </div>
-                <div class="header-info">
-                    <div class="header-item" style="background-color: #4caf50;">
-                        <p>Total Players</p>
-                        <p id="total-players">0</p>
-                    </div>
-                    <div class="header-item" style="background-color: #b02727;">
-                        <p>Total Ambulance</p>
-                        <p id="total-in-scope">0</p>
-                    </div>
-                    <div class="header-item" style="background-color: #2196f3;">
-                        <p>Total Police</p>
-                        <p id="total-police"></p>
-                    </div>
+                <div class="exit-buttons">
+                    <button id="exit-button">×</button>
                 </div>
             </div>
-            <div class="tab-container">
-                <button class="tab-button tab-button1 active" onclick="openTab(event, 'online-players')">Online Player List</button>
-                <button class="tab-button tab-button2" onclick="openTab(event, 'disconnected-players')">Disconnected Player List</button>
-                <button class="tab-button tab-button3" onclick="openTab(event, 'illegal-actions')">Illegal Actions List</button>
-            </div>          
-            <div class="scoreboard-info">
-                <div id="online-players" class="tab-content active">
-                    <!-- Online players will be listed here -->
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Left Panel - Illegal Activities -->
+                <div class="left-panel">
+                    <div id="illegal-activities-list">
+                        <!-- Activities will be populated here -->
+                    </div>
                 </div>
-                <div id="disconnected-players" class="tab-content">
-                    <!-- Disconnected players will be listed here -->
+
+                <!-- Center Panel - Player List -->
+                <div class="center-panel">
+                    <div class="player-list-header">
+                        <h2>Player List</h2>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="search-input" placeholder="Search...">
+                        </div>
+                    </div>
+                    
+                    <div class="player-table-container">
+                        <table class="player-table">
+                            <thead>
+                                <tr>
+                                    <th>Player ID</th>
+                                    <th>Player Name</th>
+                                    <th>Player Job</th>
+                                    <th>Ping</th>
+                                </tr>
+                            </thead>
+                            <tbody id="player-table-body">
+                                <!-- Players will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div id="illegal-actions" class="tab-content">
-                    <!-- Illegal actions will be listed here -->
+
+                <!-- Right Panel - Job Statistics -->
+                <div class="right-panel">
+                    <div class="stat-card online-players">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Online Players</h3>
+                            <span id="total-players-count">21 / 128</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card police">
+                        <div class="stat-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Police</h3>
+                            <span id="police-count">3 Online</span>
+                            <div class="status-indicator online"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card ambulance">
+                        <div class="stat-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Ambulance</h3>
+                            <span id="ambulance-count">4 Online</span>
+                            <div class="status-indicator online"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card mechanic">
+                        <div class="stat-icon">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Mechanic</h3>
+                            <span id="mechanic-count">1 Online</span>
+                            <div class="status-indicator online"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card taxi">
+                        <div class="stat-icon">
+                            <i class="fas fa-taxi"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Taxi</h3>
+                            <span id="taxi-count">2 Online</span>
+                            <div class="status-indicator online"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card electrician">
+                        <div class="stat-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Electrician</h3>
+                            <span id="electrician-count">1 Online</span>
+                            <div class="status-indicator online"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Tooltip element moved outside of other elements to avoid CSS conflicts -->
-    <div id="reason-tooltip" class="tooltip">
-        <p id="tooltip-text"></p>
     </div>
 
     <script src="./app.js"></script>
