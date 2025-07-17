@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="./style.css"/>
+    <link rel="stylesheet" href="./reset.css"/>
+    <title>QBCore Scoreboard</title>
+</head>
+<body>
+    <div class="container">
+        <div class="scoreboard-block">
+            <div class="scoreboard-header">
+                <div id="exit-button-container">
+                    <button id="exit-button">Exit</button>
+                    <button id="esc-button">ESC</button>
+                </div>
+                <div class="header-title">
+                    <p>PLAYER LIST</p>
+                    <p>HERE YOU CAN SEE ALL PLAYERS</p>
+                </div>
+                <div class="header-info">
+                    <div class="header-item" style="background-color: #4caf50;">
+                        <p>Total Players</p>
+                        <p id="total-players">0</p>
+                    </div>
+                    <div class="header-item" style="background-color: #b02727;">
+                        <p>Total Ambulance</p>
+                        <p id="total-in-scope">0</p>
+                    </div>
+                    <div class="header-item" style="background-color: #2196f3;">
+                        <p>Total Police</p>
+                        <p id="total-police"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-container">
+                <button class="tab-button tab-button1 active" onclick="openTab(event, 'online-players')">Online Player List</button>
+                <button class="tab-button tab-button2" onclick="openTab(event, 'disconnected-players')">Disconnected Player List</button>
+                <button class="tab-button tab-button3" onclick="openTab(event, 'illegal-actions')">Illegal Actions List</button>
+            </div>          
+            <div class="scoreboard-info">
+                <div id="online-players" class="tab-content active">
+                    <!-- Online players will be listed here -->
+                </div>
+                <div id="disconnected-players" class="tab-content">
+                    <!-- Disconnected players will be listed here -->
+                </div>
+                <div id="illegal-actions" class="tab-content">
+                    <!-- Illegal actions will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip element moved outside of other elements to avoid CSS conflicts -->
+    <div id="reason-tooltip" class="tooltip">
+        <p id="tooltip-text"></p>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
