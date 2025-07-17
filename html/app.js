@@ -14,13 +14,30 @@ window.addEventListener("message", (event) => {
 });
 
 const Open = (data) => {
-  $(".scoreboard-block").fadeIn(150);
+  const scoreboard = $(".scoreboard-block");
+  scoreboard.removeClass('collapsed expanding').addClass('opening').fadeIn(150);
   updatePlayerCounts(data);
+  updateCollapsedStats(data);
 };
 
 const Close = () => {
   $(".scoreboard-block").fadeOut(150);
   $.post('https://oc-scoreboard/close', JSON.stringify({}));
+};
+
+const toggleCollapse = () => {
+  const scoreboard = $(".scoreboard-block");
+  
+  if (scoreboard.hasClass('collapsed')) {
+    // Expand
+    scoreboard.removeClass('collapsed').addClass('expanding');
+    setTimeout(() => {
+      scoreboard.removeClass('expanding');
+    }, 600);
+  } else {
+    // Collapse
+    scoreboard.addClass('collapsed');
+  }
 };
 
 const updatePlayerCounts = (data) => {
@@ -30,6 +47,12 @@ const updatePlayerCounts = (data) => {
   
   // Update other job counts based on data
   updateJobCounts(data.onlinePlayers);
+};
+
+const updateCollapsedStats = (data) => {
+  $("#collapsed-players").text(`${data.players}/128`);
+  $("#collapsed-police").text(data.currentCops);
+  $("#collapsed-ambulance").text(data.currentambulance);
 };
 
 const updateJobCounts = (players) => {
@@ -98,6 +121,33 @@ const Setup = (data) => {
   setupPlayerTable(data);
   setupIllegalActivities(data);
   setupSearch();
+  setupAnimations();
+};
+
+const setupAnimations = () => {
+  // Stagger animation for player rows
+  $("#player-table-body tr").each(function(index) {
+    $(this).css({
+      'animation-delay': `${index * 0.05}s`,
+      'animation': 'fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both'
+    });
+  });
+  
+  // Stagger animation for activity cards
+  $(".activity-card").each(function(index) {
+    $(this).css({
+      'animation-delay': `${index * 0.1}s`,
+      'animation': 'slideInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) both'
+    });
+  });
+  
+  // Stagger animation for stat cards
+  $(".stat-card").each(function(index) {
+    $(this).css({
+      'animation-delay': `${index * 0.1}s`,
+      'animation': 'slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) both'
+    });
+  });
 };
 
 const setupPlayerTable = (data) => {
@@ -134,6 +184,7 @@ const setupPlayerTable = (data) => {
   }
 
   $("#player-table-body").html(playersHtml);
+  setupAnimations();
 };
 
 const setupIllegalActivities = (data) => {
@@ -164,6 +215,7 @@ const setupIllegalActivities = (data) => {
 };
 
 const setupSearch = () => {
+  // Enhanced search with animation
   $("#search-input").on('input', function() {
     const searchTerm = $(this).val().toLowerCase();
     
@@ -176,19 +228,59 @@ const setupSearch = () => {
                      playerName.includes(searchTerm) || 
                      playerJob.includes(searchTerm);
       
-      $(this).toggle(matches);
+      if (matches) {
+        $(this).fadeIn(200);
+      } else {
+        $(this).fadeOut(200);
+      }
     });
+  });
+  
+  // Add focus animations
+  $("#search-input").on('focus', function() {
+    $(this).parent().addClass('focused');
+  }).on('blur', function() {
+    $(this).parent().removeClass('focused');
   });
 };
 
 $(document).ready(() => {
+  // Collapse button
+  $("#collapse-button").click(() => {
+    toggleCollapse();
+  });
+  
+  // Expand button
+  $("#expand-button").click(() => {
+    toggleCollapse();
+  });
+  
+  // Exit buttons
   $("#exit-button").click(() => {
     Close();
   });
+  
+  $("#collapsed-exit-button").click(() => {
+    Close();
+  });
 
+  // Keyboard shortcuts
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' || event.key === 'Esc') {
       Close();
     }
+    if (event.key === 'Tab' && event.ctrlKey) {
+      event.preventDefault();
+      toggleCollapse();
+    }
+  });
+  
+  // Add particle effect on hover for activity cards
+  $(document).on('mouseenter', '.activity-card', function() {
+    if (!$(this).hasClass('locked')) {
+      $(this).addClass('hovered');
+    }
+  }).on('mouseleave', '.activity-card', function() {
+    $(this).removeClass('hovered');
   });
 });
