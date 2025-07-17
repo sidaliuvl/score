@@ -5,163 +5,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <link rel="stylesheet" href="./style.css"/>
     <link rel="stylesheet" href="./reset.css"/>
-    <title>Quasar Roleplay Scoreboard</title>
+    <title>City Dashboard</title>
 </head>
 <body>
-    <div class="container">
-        <div class="scoreboard-block">
-            <!-- Header with Logo -->
-            <div class="scoreboard-header">
-                <div class="logo-section">
-                    <div class="logo-icon">Q</div>
-                    <div class="logo-text">
-                        <h1>Quasar</h1>
-                        <p>Roleplay</p>
-                    </div>
-                </div>
-                <div class="exit-buttons">
-                    <button id="collapse-button" title="Collapse">
-                        <i class="fas fa-compress-alt"></i>
-                    </button>
-                    <button id="exit-button">×</button>
-                </div>
-            </div>
+    <!-- Background Effects -->
+    <div class="bg-overlay"></div>
+    <div class="grid-pattern"></div>
+    <div class="floating-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-            <!-- Collapsed View -->
-            <div class="collapsed-content">
-                <div class="collapsed-header">
-                    <div class="collapsed-logo">Q</div>
-                    <div class="collapsed-stats">
-                        <div class="collapsed-stat">
-                            <i class="fas fa-users"></i>
-                            <span id="collapsed-players">21/128</span>
-                        </div>
-                        <div class="collapsed-stat">
-                            <i class="fas fa-shield-alt"></i>
-                            <span id="collapsed-police">3</span>
-                        </div>
-                        <div class="collapsed-stat">
-                            <i class="fas fa-ambulance"></i>
-                            <span id="collapsed-ambulance">4</span>
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container" id="dashboard">
+        <!-- Header Section -->
+        <div class="dashboard-header">
+            <div class="header-left">
+                <div class="city-logo">
+                    <div class="logo-hexagon">
+                        <div class="hexagon-inner">
+                            <i class="fas fa-city"></i>
                         </div>
                     </div>
-                    <div class="collapsed-controls">
-                        <button id="expand-button" title="Expand">
-                            <i class="fas fa-expand-alt"></i>
-                        </button>
-                        <button id="collapsed-exit-button">×</button>
+                    <div class="city-info">
+                        <h1 class="city-name">LOS SANTOS</h1>
+                        <p class="city-subtitle">ROLEPLAY CITY</p>
                     </div>
                 </div>
             </div>
+            
+            <div class="header-center">
+                <div class="server-status">
+                    <div class="status-indicator pulse"></div>
+                    <span class="status-text">LIVE SERVER</span>
+                </div>
+                <div class="server-time">
+                    <i class="fas fa-clock"></i>
+                    <span id="current-time">00:00</span>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <button class="control-btn minimize-btn" id="minimize-btn" title="Minimize Dashboard">
+                    <i class="fas fa-compress-alt"></i>
+                </button>
+                <button class="control-btn close-btn" id="close-btn" title="Close Dashboard">
+                    <i class="fas fa-power-off"></i>
+                </button>
+            </div>
+        </div>
 
-            <!-- Main Content -->
-            <div class="main-content">
-                <!-- Left Panel - Illegal Activities -->
-                <div class="left-panel">
-                    <div id="illegal-activities-list">
-                        <!-- Activities will be populated here -->
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+            <!-- Left Panel - City Statistics -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>CITY OVERVIEW</h3>
+                </div>
+                
+                <div class="stats-container">
+                    <!-- Population Card -->
+                    <div class="stat-card population-card">
+                        <div class="card-header">
+                            <div class="card-icon population">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-title">POPULATION</div>
+                        </div>
+                        <div class="card-content">
+                            <div class="main-number" id="total-players">0</div>
+                            <div class="sub-info">
+                                <span class="max-capacity">/ 128</span>
+                                <div class="capacity-bar">
+                                    <div class="capacity-fill" id="capacity-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Services -->
+                    <div class="emergency-section">
+                        <h4 class="section-title">EMERGENCY SERVICES</h4>
+                        
+                        <div class="service-card police-card">
+                            <div class="service-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="service-info">
+                                <div class="service-name">POLICE DEPT</div>
+                                <div class="service-count" id="police-count">0</div>
+                                <div class="service-status">UNITS ON DUTY</div>
+                            </div>
+                            <div class="service-indicator police-indicator"></div>
+                        </div>
+
+                        <div class="service-card ambulance-card">
+                            <div class="service-icon">
+                                <i class="fas fa-ambulance"></i>
+                            </div>
+                            <div class="service-info">
+                                <div class="service-name">MEDICAL EMS</div>
+                                <div class="service-count" id="ambulance-count">0</div>
+                                <div class="service-status">MEDICS ACTIVE</div>
+                            </div>
+                            <div class="service-indicator ambulance-indicator"></div>
+                        </div>
+                    </div>
+
+                    <!-- City Services -->
+                    <div class="services-section">
+                        <h4 class="section-title">CITY SERVICES</h4>
+                        
+                        <div class="service-grid">
+                            <div class="mini-service mechanic">
+                                <i class="fas fa-wrench"></i>
+                                <span class="mini-count" id="mechanic-count">0</span>
+                                <span class="mini-label">MECHANIC</span>
+                            </div>
+                            
+                            <div class="mini-service taxi">
+                                <i class="fas fa-taxi"></i>
+                                <span class="mini-count" id="taxi-count">0</span>
+                                <span class="mini-label">TAXI</span>
+                            </div>
+                            
+                            <div class="mini-service electrician">
+                                <i class="fas fa-bolt"></i>
+                                <span class="mini-count" id="electrician-count">0</span>
+                                <span class="mini-label">ELECTRIC</span>
+                            </div>
+                            
+                            <div class="mini-service farmer">
+                                <i class="fas fa-seedling"></i>
+                                <span class="mini-count" id="farmer-count">0</span>
+                                <span class="mini-label">FARMER</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Panel - Citizens Registry -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-id-card"></i>
+                    <h3>CITIZENS REGISTRY</h3>
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search by ID or Job...">
                     </div>
                 </div>
 
-                <!-- Center Panel - Player List -->
-                <div class="center-panel">
-                    <div class="player-list-header">
-                        <h2>Player List</h2>
-                        <div class="search-container">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="search-input" placeholder="Search...">
-                        </div>
+                <div class="registry-container">
+                    <div class="registry-header">
+                        <div class="header-cell id-cell">CITIZEN ID</div>
+                        <div class="header-cell job-cell">PROFESSION</div>
+                        <div class="header-cell status-cell">STATUS</div>
+                        <div class="header-cell ping-cell">CONNECTION</div>
                     </div>
                     
-                    <div class="player-table-container">
-                        <table class="player-table">
-                            <thead>
-                                <tr>
-                                    <th>Player ID</th>
-                                    <th>Player Name</th>
-                                    <th>Player Job</th>
-                                    <th>Ping</th>
-                                </tr>
-                            </thead>
-                            <tbody id="player-table-body">
-                                <!-- Players will be populated here -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Right Panel - Job Statistics -->
-                <div class="right-panel">
-                    <div class="stat-card online-players">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Online Players</h3>
-                            <span id="total-players-count">21 / 128</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card police">
-                        <div class="stat-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Police</h3>
-                            <span id="police-count">3 Online</span>
-                            <div class="status-indicator online"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card ambulance">
-                        <div class="stat-icon">
-                            <i class="fas fa-ambulance"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Ambulance</h3>
-                            <span id="ambulance-count">4 Online</span>
-                            <div class="status-indicator online"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card mechanic">
-                        <div class="stat-icon">
-                            <i class="fas fa-wrench"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Mechanic</h3>
-                            <span id="mechanic-count">1 Online</span>
-                            <div class="status-indicator online"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card taxi">
-                        <div class="stat-icon">
-                            <i class="fas fa-taxi"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Taxi</h3>
-                            <span id="taxi-count">2 Online</span>
-                            <div class="status-indicator online"></div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card electrician">
-                        <div class="stat-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3>Electrician</h3>
-                            <span id="electrician-count">1 Online</span>
-                            <div class="status-indicator online"></div>
-                        </div>
+                    <div class="registry-body" id="registry-body">
+                        <!-- Citizens will be populated here -->
                     </div>
                 </div>
             </div>
+
+            <!-- Right Panel - City Activities -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>CITY ACTIVITIES</h3>
+                </div>
+                
+                <div class="activities-container" id="activities-container">
+                    <!-- Activities will be populated here -->
+                </div>
+                
+                <!-- City Status Footer -->
+                <div class="city-status-footer">
+                    <div class="status-item">
+                        <i class="fas fa-server"></i>
+                        <span>SERVER STABLE</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="fas fa-shield-check"></i>
+                        <span>SECURE CONNECTION</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimized Dashboard -->
+    <div class="dashboard-minimized" id="dashboard-minimized">
+        <div class="minimized-header">
+            <div class="mini-logo">
+                <i class="fas fa-city"></i>
+            </div>
+            <div class="mini-title">LS-RP</div>
+        </div>
+        
+        <div class="minimized-stats">
+            <div class="mini-stat">
+                <i class="fas fa-users"></i>
+                <span id="mini-population">0/128</span>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-shield-alt"></i>
+                <span id="mini-police">0</span>
+            </div>
+            <div class="mini-stat">
+                <i class="fas fa-ambulance"></i>
+                <span id="mini-ambulance">0</span>
+            </div>
+        </div>
+        
+        <div class="minimized-controls">
+            <button class="mini-control expand-btn" id="expand-btn" title="Expand Dashboard">
+                <i class="fas fa-expand-alt"></i>
+            </button>
+            <button class="mini-control mini-close-btn" id="mini-close-btn" title="Close Dashboard">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 
